@@ -28,7 +28,7 @@ def create():
     return json_response(kudo)
 
 
-@app.route("/kudo/<int:repo_id>", methods=["GET"])
+@app.route("/kudos/<int:repo_id>", methods=["GET"])
 @login_required
 def show(repo_id):
     kudo = Kudo(g.user).find_kudo(repo_id)
@@ -39,7 +39,7 @@ def show(repo_id):
         return json_response({'error': 'kudo not found'}, 404)
 
 
-@app.route("/kudo/<int:repo_id>", methods=["PUT"])
+@app.route("/kudos/<int:repo_id>", methods=["PUT"])
 @login_required
 def update(repo_id):
     github_repo = GithubRepoSchema().load(json.loads(request.data))
@@ -54,10 +54,11 @@ def update(repo_id):
         return json_response({'error': 'kudo not found'}, 404)
 
 
-@app.route("/kudo/<int:repo_id>", methods=["DELETE"])
+@app.route("/kudos/<int:repo_id>", methods=["DELETE"])
 @login_required
 def delete(repo_id):
     kudo_service = Kudo(g.user)
+    logging.info(f'this is delete endpoint')
     if kudo_service.delete_kudo_for(repo_id):
         return json_response({})
     else:
