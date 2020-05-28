@@ -16,12 +16,11 @@ class Service(object):
 
     def find_all_kudos(self):
         kudos = self.repo_client.find_all({'user_id': self.user_id})
-        logging.info(f'this is get{kudos}')
         return [self.dump(kudo) for kudo in kudos]
 
     def find_kudo(self, repo_id):
         kudo = self.repo_client.find({'user_id': self.user_id,
-                                      'repo_id': repo_id})
+                                      'id': repo_id})
         return self.dump(kudo)
 
     def create_kudo_for(self, githubRepo):
@@ -30,13 +29,13 @@ class Service(object):
 
     def update_kudo_with(self, repo_id, githubRepo):
         records_affected = self.repo_client.update(
-            {'user_id': self.user_id, 'repo_id': repo_id},
+            {'user_id': self.user_id, 'id': repo_id},
             self.prepare_kudo(githubRepo))
         return records_affected > 0
 
     def delete_kudo_for(self, repo_id):
         records_affected = self.repo_client.delete({'user_id': self.user_id,
-                                                    'repo_id': repo_id})
+                                                    'id': repo_id})
         return records_affected > 0
 
     def dump(self, data):

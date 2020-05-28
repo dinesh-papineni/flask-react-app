@@ -3,11 +3,11 @@ from marshmallow import Schema, fields
 
 class GithubRepoSchema(Schema):
     id = fields.Int(required=True)
-    repo_name = fields.Str()
+    name = fields.Str()
     full_name = fields.Str()
     language = fields.Str()
     description = fields.Str()
-    repo_url = fields.URL()
+    html_url = fields.URL()
 
 
 class KudoSchema(GithubRepoSchema):
