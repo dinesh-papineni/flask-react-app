@@ -1,7 +1,6 @@
-from app.repository import Repository
-from app.repository.mongo import MongoRepository
+from repository import Repository
+from repository.mongo import MongoRepository
 from .schema import KudoSchema
-import logging
 
 
 class Service(object):

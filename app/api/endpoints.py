@@ -1,22 +1,25 @@
-from .middlewares import login_required
-from flask import Flask, json, g, request
-from app.kudo.service import Service as Kudo
-from app.kudo.schema import GithubRepoSchema
-from flask_cors import CORS
 import logging
 
+from flask import Flask, g, json, request
+from flask_cors import CORS
+
+from kudo.schema import GithubRepoSchema
+from kudo.service import Service as Kudo
+from middleware.middlewares import login_required
+
+flask_app = Flask(__name__)
+CORS(flask_app)
 logging.basicConfig(level=logging.DEBUG)
-app = Flask(__name__)
-CORS(app)
 
 
-@app.route("/kudos", methods=["GET"])
-@login_required
+@flask_app.route("/kudos", methods=["GET"])
+# @login_required
 def index():
-    return json_response(Kudo(g.user).find_all_kudos())
+    return json_response({'key': 'something'}, 200)
+    # return json_response(Kudo(g.user).find_all_kudos())
 
 
-@app.route("/kudos", methods=["POST"])
+@flask_app.route("/kudos", methods=["POST"])
 @login_required
 def create():
     github_repo = GithubRepoSchema().load(json.loads(request.data))
@@ -28,7 +31,7 @@ def create():
     return json_response(kudo)
 
 
-@app.route("/kudos/<int:repo_id>", methods=["GET"])
+@flask_app.route("/kudos/<int:repo_id>", methods=["GET"])
 @login_required
 def show(repo_id):
     kudo = Kudo(g.user).find_kudo(repo_id)
@@ -39,7 +42,7 @@ def show(repo_id):
         return json_response({'error': 'kudo not found'}, 404)
 
 
-@app.route("/kudos/<int:repo_id>", methods=["PUT"])
+@flask_app.route("/kudos/<int:repo_id>", methods=["PUT"])
 @login_required
 def update(repo_id):
     github_repo = GithubRepoSchema().load(json.loads(request.data))
@@ -54,7 +57,7 @@ def update(repo_id):
         return json_response({'error': 'kudo not found'}, 404)
 
 
-@app.route("/kudos/<int:repo_id>", methods=["DELETE"])
+@flask_app.route("/kudos/<int:repo_id>", methods=["DELETE"])
 @login_required
 def delete(repo_id):
     kudo_service = Kudo(g.user)
