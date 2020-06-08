@@ -13,10 +13,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 @flask_app.route("/kudos", methods=["GET"])
-# @login_required
+@login_required
 def index():
-    return json_response({'key': 'something'}, 200)
-    # return json_response(Kudo(g.user).find_all_kudos())
+    return json_response(Kudo(g.user).find_all_kudos())
 
 
 @flask_app.route("/kudos", methods=["POST"])
