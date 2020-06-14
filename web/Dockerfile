@@ -1,15 +1,14 @@
-FROM node:11.10.1-alpine
+FROM node:13.12.0-alpine
 
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json .
-COPY package-lock.json .
-RUN npm install
+COPY package*.json ./
 
+RUN npm install -g
 
 COPY . .
 
 EXPOSE 8080
+
 ENTRYPOINT [ "npm" ]
 CMD [ "start" ]

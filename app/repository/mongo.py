@@ -7,7 +7,7 @@ COLLECTION_NAME = 'kudos'
 class MongoRepository(object):
     def __init__(self):
         mongo_url = os.environ.get('MONGO_URL')
-        mongo_url = 'mongodb://mongo_user:mongo_secret@0.0.0.0:27017/?authSource=admin'
+        mongo_url = 'mongodb://mongo_user:mongo_secret@flask-react-app_mongo_1:27017/?authSource=admin'
         self.db = MongoClient(mongo_url).kudos
 
     def find_all(self, selector):
